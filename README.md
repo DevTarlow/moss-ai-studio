@@ -1,6 +1,6 @@
-# Moss AI Studio — AI Automation & Engineering
+# Moss AI Studio — Tailored Automation & AI Systems
 
-Landing page for an indie AI automation studio. Built with Astro and Tailwind CSS v4.
+Landing page for an indie AI automation studio. Built with Astro and Tailwind CSS v4 by Tarlow.
 
 **Live site** ships a static `dist/` with optimized HTML + CSS.
 

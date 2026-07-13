@@ -61,10 +61,13 @@ const { activeTab = "book" } = Astro.props;
     <div class="cta-panel hidden" data-panel="message">
       <div class="rounded-2xl border border-brand-sand/40 bg-brand-cream p-6 md:p-8">
         <form
-          action="https://your-n8n-webhook.example.com/webhook/replace-me"
+          id="cta-form"
+          action="https://api.web3forms.com/submit"
           method="POST"
           class="space-y-5"
         >
+          <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
+          <input type="checkbox" name="botcheck" class="hidden" style="display:none" />
           <div>
             <label for="cta-name" class="mb-1.5 block text-sm font-medium text-brand-earth/70">Name</label>
             <input
@@ -117,6 +120,7 @@ const { activeTab = "book" } = Astro.props;
               <path d="M3.105 2.288a.75.75 0 0 0-.826.95l1.414 4.926A1.5 1.5 0 0 0 5.135 9.25h6.115a.75.75 0 0 1 0 1.5H5.135a1.5 1.5 0 0 0-1.442 1.086l-1.414 4.926a.75.75 0 0 0 .826.95 28.896 28.896 0 0 0 15.293-7.155.75.75 0 0 0 0-1.114A28.897 28.897 0 0 0 3.105 2.288Z" />
             </svg>
           </button>
+          <div id="cta-form-status" class="mt-6 hidden text-center text-sm"></div>
         </form>
       </div>
     </div>
@@ -125,6 +129,45 @@ const { activeTab = "book" } = Astro.props;
 
 <script>
   (function () {
+    const ctaForm = document.getElementById('cta-form');
+    if (ctaForm) {
+      const ctaStatus = document.getElementById('cta-form-status');
+      const ctaButton = ctaForm.querySelector('button[type="submit"]');
+      const ctaBtnOriginal = ctaButton.innerHTML;
+
+      ctaForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        ctaStatus.classList.add('hidden');
+        ctaStatus.textContent = '';
+        ctaStatus.className = 'mt-6 hidden text-center text-sm';
+        ctaButton.disabled = true;
+        ctaButton.innerHTML = 'Sending...';
+        ctaButton.classList.add('opacity-70', 'cursor-not-allowed');
+
+        try {
+          const data = new FormData(ctaForm);
+          const body = new URLSearchParams(data);
+          const res = await fetch(ctaForm.action, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body,
+          });
+          if (!res.ok) throw new Error('Server responded with ' + res.status);
+          ctaStatus.textContent = 'Thanks! We\'ll get back to you within 24 hours.';
+          ctaStatus.className = 'mt-6 text-center text-sm text-green-600';
+          ctaForm.reset();
+        } catch (err) {
+          ctaStatus.textContent = 'Something went wrong. Please try again or email us directly.';
+          ctaStatus.className = 'mt-6 text-center text-sm text-red-500';
+        } finally {
+          ctaStatus.classList.remove('hidden');
+          ctaButton.disabled = false;
+          ctaButton.innerHTML = ctaBtnOriginal;
+          ctaButton.classList.remove('opacity-70', 'cursor-not-allowed');
+        }
+      });
+    }
+
     const tabs = document.querySelectorAll<HTMLElement>(".cta-tab");
     const panels = document.querySelectorAll<HTMLElement>(".cta-panel");
 

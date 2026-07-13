@@ -10,11 +10,13 @@
       </p>
     </div>
 
-    <form class="reveal"
-      action="https://your-n8n-webhook.example.com/webhook/replace-me"
+    <form id="contact-form"
+      action="https://api.web3forms.com/submit"
       method="POST"
-      class="space-y-6"
+      class="reveal space-y-6"
     >
+      <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
+      <input type="checkbox" name="botcheck" class="hidden" style="display:none" />
       <div>
         <label for="name" class="mb-2 block text-sm font-medium text-brand-earth/70">
           Name
@@ -79,6 +81,52 @@
           <path d="M3.105 2.288a.75.75 0 0 0-.826.95l1.414 4.926A1.5 1.5 0 0 0 5.135 9.25h6.115a.75.75 0 0 1 0 1.5H5.135a1.5 1.5 0 0 0-1.442 1.086l-1.414 4.926a.75.75 0 0 0 .826.95 28.896 28.896 0 0 0 15.293-7.155.75.75 0 0 0 0-1.114A28.897 28.897 0 0 0 3.105 2.288Z" />
         </svg>
       </button>
+
+      <div id="form-status" class="mt-6 hidden text-center text-sm"></div>
     </form>
   </div>
 </section>
+
+<script>
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('form-status');
+  const button = form.querySelector('button[type="submit"]');
+  const buttonOriginalContent = button.innerHTML;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    status.classList.add('hidden');
+    status.textContent = '';
+    status.className = 'mt-6 hidden text-center text-sm';
+
+    button.disabled = true;
+    button.innerHTML = 'Sending...';
+    button.classList.add('opacity-70', 'cursor-not-allowed');
+
+    try {
+      const data = new FormData(form);
+      const body = new URLSearchParams(data);
+
+      const res = await fetch(form.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body,
+      });
+
+      if (!res.ok) throw new Error('Server responded with ' + res.status);
+
+      status.textContent = 'Thanks! We\'ll get back to you within 24 hours.';
+      status.className = 'mt-6 text-center text-sm text-green-600';
+      form.reset();
+    } catch (err) {
+      status.textContent = 'Something went wrong. Please try again or email us directly.';
+      status.className = 'mt-6 text-center text-sm text-red-500';
+    } finally {
+      status.classList.remove('hidden');
+      button.disabled = false;
+      button.innerHTML = buttonOriginalContent;
+      button.classList.remove('opacity-70', 'cursor-not-allowed');
+    }
+  });
+</script>
