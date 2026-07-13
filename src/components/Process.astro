@@ -1,0 +1,52 @@
+---
+const steps = [
+  {
+    step: "01",
+    title: "Map & Audit",
+    summary: "We look under the hood.",
+    detail: "Every engagement starts with a deep dive into your current tech stack and operational bottlenecks. We map out your existing data paths, identify where your team is wasting time on manual repetition, and spot the exact areas ripe for automation."
+  },
+  {
+    step: "02",
+    title: "Blueprint & Design",
+    summary: "No guesswork.",
+    detail: "Before a single line of code is written, you receive a clean, transparent blueprint of your new workflow ecosystem. We mock up the integrations and lay out exactly how data will flow seamlessly across your tools, ensuring it fits perfectly into your daily routine."
+  },
+  {
+    step: "03",
+    title: "Build & Integrate",
+    summary: "Crafting the infrastructure.",
+    detail: "This is where we bring the blueprint to life. We develop your custom AI tools, configure the API connections, and build out the automated pipelines. Everything is constructed to be modular, lightweight, and deeply reliable."
+  },
+  {
+    step: "04",
+    title: "Optimization & Handoff",
+    summary: "Sustainable growth.",
+    detail: "We don't believe in black boxes. We rigorously test the new system alongside you and your team, fine-tune the friction points, and deliver clear, accessible documentation. You get full ownership of a lean, high-performing engine your team can easily run."
+  }
+];
+---
+
+<section id="process" class="mx-auto max-w-6xl px-6 py-24">
+  <div class="mx-auto max-w-2xl text-center reveal">
+    <p class="mb-3 font-mono text-xs font-medium uppercase tracking-[0.2em] text-brand-olive">How We Work</p>
+    <h2 class="font-display text-3xl font-semibold tracking-tight text-brand-earth md:text-4xl">
+      From hello to <span class="italic text-brand-olive">shipped.</span>
+    </h2>
+  </div>
+
+  <div class="mx-auto mt-14 max-w-2xl">
+    {steps.map((s, i) => (
+      <div class="relative border-l-2 border-brand-sand/30 pl-8 pb-10 last:pb-0">
+        <span class="absolute -left-3 top-0 flex h-6 w-6 items-center justify-center rounded-full border-2 border-brand-sand/30 bg-brand-cream font-mono text-[10px] font-medium text-brand-olive">
+          {s.step}
+        </span>
+        <div class="reveal" class:list={["reveal-delay-" + (i + 1)]}>
+          <h3 class="font-display text-lg font-semibold text-brand-earth">{s.title}</h3>
+          <p class="mt-1 text-sm text-brand-earth/60">{s.summary}</p>
+          <p class="mt-2 text-sm leading-relaxed text-brand-earth/50">{s.detail}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
