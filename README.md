@@ -2,7 +2,7 @@
 
 Landing page for an indie AI automation studio. Built with Astro and Tailwind CSS v4 by Tarlow.
 
-**Live site** ships a static `dist/` with optimized HTML + CSS.
+**Live site:** [mossaistudio.com](https://mossaistudio.com)
 
 ## Built With
 
@@ -17,47 +17,34 @@ Landing page for an indie AI automation studio. Built with Astro and Tailwind CS
 /
 ├── astro.config.mjs
 ├── package.json
+├── public/
+│   ├── CNAME                         # GitHub Pages custom domain
+│   ├── favicon.ico
+│   ├── favicon.svg
+│   └── images/                       # Logo, headshots
 ├── src/
-│   ├── assets/                    # Static images (backgrounds, etc.)
+│   ├── assets/                       # SVG backgrounds, icons
 │   ├── styles/
-│   │   └── global.css             # Tailwind import + @theme tokens + reveal animations
+│   │   └── global.css                # Tailwind import + @theme tokens + reveal animations
 │   ├── scripts/
-│   │   └── reveal.js              # IntersectionObserver for scroll-reveal
+│   │   └── reveal.js                 # IntersectionObserver for scroll-reveal
 │   ├── layouts/
-│   │   └── Layout.astro           # Base HTML shell, fonts, SEO meta
+│   │   └── Layout.astro              # Base HTML shell, fonts, SEO meta
 │   ├── components/
-│   │   ├── Header.astro           # Sticky nav, logo, CTA button
-│   │   ├── Hero.astro             # Hero copy + dual CTAs
-│   │   ├── About.astro            # Studio story, founder headshot, philosophy
-│   │   ├── Services.astro         # 3-card grid (Workflows, AI, Audits)
-│   │   ├── Process.astro          # 4-step timeline (Map → Blueprint → Build → Handoff)
-│   │   ├── FAQ.astro              # Accordion FAQ (4 questions)
-│   │   ├── CTA.astro              # "Get Started" — Cal.com booking + contact form tabs
-│   │   ├── Footer.astro           # Logo, copyright, nav links
-│   │   ├── BackToTop.astro        # Fixed scroll-to-top button
-│   │   ├── Booking.astro          # Standalone Cal.com embed (not currently imported)
-│   │   └── ContactForm.astro      # Standalone contact form (not currently imported)
+│   │   ├── Header.astro              # Sticky nav, logo, CTA button
+│   │   ├── Hero.astro                # Hero copy + dual CTAs
+│   │   ├── About.astro               # Studio story, founder headshot
+│   │   ├── Services.astro            # 3-card grid (Workflows, AI, Audits)
+│   │   ├── Process.astro             # 4-step timeline
+│   │   ├── FAQ.astro                 # Accordion FAQ
+│   │   ├── CTA.astro                 # Cal.com booking + contact form tabs
+│   │   ├── Footer.astro              # Logo, copyright, nav links
+│   │   └── BackToTop.astro           # Fixed scroll-to-top button
 │   └── pages/
-│       └── index.astro            # Assembles all sections
-└── public/
-    ├── favicon.ico
-    ├── favicon.svg
-    └── images/                    # Founder headshot, logo
+│       └── index.astro               # Assembles all sections
+└── .github/workflows/
+    └── deploy.yml                    # GitHub Actions deploy to Pages
 ```
-
-## Section Order
-
-The page flows in this "Organic Flow" order:
-
-1. **Header** — Sticky navigation
-2. **Hero** — "Cultivating flow. Eliminating friction."
-3. **About** — Founder background (Tarlow P., Portland, OR)
-4. **Services** — Custom Workflows, AI & App Dev, Audits
-5. **Process** — How We Work (01–04 timeline)
-6. **FAQ** — Common questions
-7. **CTA** — Book a call / Send a message
-8. **Footer** — Site footer
-9. **BackToTop** — Scroll-to-top button
 
 ## Getting Started
 
@@ -80,19 +67,19 @@ npm run dev -- --port 4322
 | `npm run build`      | Build static site to `dist/`         |
 | `npm run preview`    | Preview the production build locally |
 
-## Configuration
+## Environment Variables
 
-### n8n Webhook
+The contact form requires a Web3Forms access key. Set it locally in an `.env` file:
 
-The contact form (CTA "Send a Message" tab) POSTs to a placeholder URL. Replace it with your real n8n webhook:
-
-**File:** `src/components/CTA.astro` — line 64
-
-```astro
-action="https://your-n8n-webhook.example.com/webhook/replace-me"
+```
+PUBLIC_WEB3FORMS_ACCESS_KEY=your-access-key-here
 ```
 
-The form sends `name`, `email`, `company`, and `message` fields.
+| Variable                         | Required | Description                          |
+| :------------------------------- | :------- | :----------------------------------- |
+| `PUBLIC_WEB3FORMS_ACCESS_KEY`    | Yes      | Web3Forms API key for form submissions |
+
+In production (GitHub Pages), set this as a repository secret named `WEB3FORMS_ACCESS_KEY` — the deploy workflow maps it to the `PUBLIC_WEB3FORMS_ACCESS_KEY` environment variable automatically.
 
 ### Cal.com Booking
 
@@ -106,7 +93,7 @@ calLink: "moss-ai-studio/30min",
 
 Update to your Cal.com username and event slug.
 
-### Brand Palette
+## Brand Palette
 
 Design tokens defined in `src/styles/global.css` via `@theme`:
 
@@ -124,7 +111,22 @@ Opacities work as usual: `border-brand-sand/40`, `text-brand-earth/70`, etc.
 
 ## Deployment
 
-The `dist/` directory contains everything needed to serve the site. Deploy to any static host:
+The site deploys automatically via GitHub Actions on push to `main`.
+
+### Prerequisites
+
+1. **GitHub Pages** — enabled in repo settings, source set to "GitHub Actions"
+2. **Custom domain** — `mossaistudio.com` configured in repo Pages settings (or via `public/CNAME`)
+3. **DNS** — add a `CNAME` record pointing `mossaistudio.com` to `<username>.github.io`
+4. **Repository secret** — add `WEB3FORMS_ACCESS_KEY` under Settings → Secrets and variables → Actions
+
+### Manual Deploy
+
+```bash
+npm run build
+```
+
+The `dist/` directory contains everything needed. Deploy to any static host:
 
 - **Cloudflare Pages** — build command `npm run build`, output directory `dist`
 - **Netlify** — publish directory `dist`

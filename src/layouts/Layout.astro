@@ -3,6 +3,12 @@ export interface Props {
   title?: string;
   description?: string;
 }
+
+import "../styles/global.css";
+
+const { title, description } = Astro.props;
+const siteTitle = title ?? "Moss AI Studio — AI Automation & Engineering";
+const siteDescription = description ?? "We automate workflows and build custom AI apps so startups and SMBs can focus on what matters. n8n, LLMs, and process automation engineering.";
 ---
 
 <!doctype html>
@@ -13,20 +19,34 @@ export interface Props {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href="https://mossaistudio.com" />
 
-    <title>{Astro.props.title ?? "Moss AI Studio — AI Automation & Engineering"}</title>
-    <meta
-      name="description"
-      content={Astro.props.description ?? "We automate workflows and build custom AI apps so startups and SMBs can focus on what matters. n8n, LLMs, and process automation engineering."}
-    />
+    <title>{siteTitle}</title>
+    <meta name="description" content={siteDescription} />
 
-    <meta property="og:title" content={Astro.props.title ?? "Moss AI Studio — AI Automation & Engineering"} />
-    <meta
-      property="og:description"
-      content={Astro.props.description ?? "We automate workflows and build custom AI apps so startups and SMBs can focus on what matters."}
-    />
+    <meta property="og:title" content={siteTitle} />
+    <meta property="og:description" content={siteDescription} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mossaistudio.com" />
+    <meta property="og:image" content="https://mossaistudio.com/images/moss-ai-studio-logo.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://mossaistudio.com/images/moss-ai-studio-logo.jpg" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Moss AI Studio",
+        "description": "Tailored Automation & AI Systems for startups and SMBs. Custom workflows, AI app development, and process audits.",
+        "url": "https://mossaistudio.com",
+        "founder": {
+          "@type": "Person",
+          "name": "Tarlow P."
+        },
+        "areaServed": "US",
+        "foundingLocation": "Portland, OR"
+      }
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

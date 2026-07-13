@@ -14,11 +14,14 @@ const { activeTab = "book" } = Astro.props;
   </div>
 
   <div class="cta-tabs mx-auto mt-10 max-w-2xl">
-    <div class="mb-8 flex justify-center gap-2 rounded-xl border border-brand-sand/30 bg-brand-tan/30 p-1.5">
+    <div role="tablist" class="mb-8 flex justify-center gap-2 rounded-xl border border-brand-sand/30 bg-brand-tan/30 p-1.5">
       <button
+        role="tab"
+        id="cta-tab-book"
         class="cta-tab flex-1 rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200"
         data-tab="book"
         aria-selected="true"
+        aria-controls="cta-panel-book"
       >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="-mt-0.5 mr-1.5 inline h-4 w-4">
           <path d="M10.362 1.093a.75.75 0 0 0-.724 0L2.523 5.018 10 9.143l7.477-4.125-7.115-3.925ZM18 6.443l-7.25 4v8.25l6.862-3.786A.75.75 0 0 0 18 14.25V6.443ZM9.25 18.693v-8.25l-7.25-4v7.807a.75.75 0 0 0 .388.657l6.862 3.786Z" />
@@ -26,9 +29,12 @@ const { activeTab = "book" } = Astro.props;
         Book a Call
       </button>
       <button
+        role="tab"
+        id="cta-tab-message"
         class="cta-tab flex-1 rounded-lg px-4 py-2.5 text-sm font-medium text-brand-earth/50 transition-all duration-200"
         data-tab="message"
         aria-selected="false"
+        aria-controls="cta-panel-message"
       >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="-mt-0.5 mr-1.5 inline h-4 w-4">
           <path d="M3.105 2.288a.75.75 0 0 0-.826.95l1.414 4.926A1.5 1.5 0 0 0 5.135 9.25h6.115a.75.75 0 0 1 0 1.5H5.135a1.5 1.5 0 0 0-1.442 1.086l-1.414 4.926a.75.75 0 0 0 .826.95 28.896 28.896 0 0 0 15.293-7.155.75.75 0 0 0 0-1.114A28.897 28.897 0 0 0 3.105 2.288Z" />
@@ -37,7 +43,7 @@ const { activeTab = "book" } = Astro.props;
       </button>
     </div>
 
-    <div class="cta-panel" data-panel="book">
+    <div role="tabpanel" id="cta-panel-book" class="cta-panel" data-panel="book" aria-labelledby="cta-tab-book">
       <div class="rounded-2xl border border-brand-sand/40 bg-brand-cream p-6 md:p-8">
         <p class="mb-4 text-center text-sm text-brand-earth/60">
           Pick a time that works. No commitment, no pitch deck - just a conversation.
@@ -58,7 +64,7 @@ const { activeTab = "book" } = Astro.props;
       </div>
     </div>
 
-    <div class="cta-panel hidden" data-panel="message">
+    <div role="tabpanel" id="cta-panel-message" class="cta-panel hidden" data-panel="message" aria-labelledby="cta-tab-message">
       <div class="rounded-2xl border border-brand-sand/40 bg-brand-cream p-6 md:p-8">
         <form
           id="cta-form"
@@ -66,7 +72,7 @@ const { activeTab = "book" } = Astro.props;
           method="POST"
           class="space-y-5"
         >
-          <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
+          <input type="hidden" name="access_key" value={import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY} />
           <input type="checkbox" name="botcheck" class="hidden" style="display:none" />
           <div>
             <label for="cta-name" class="mb-1.5 block text-sm font-medium text-brand-earth/70">Name</label>
@@ -168,25 +174,42 @@ const { activeTab = "book" } = Astro.props;
       });
     }
 
-    const tabs = document.querySelectorAll<HTMLElement>(".cta-tab");
-    const panels = document.querySelectorAll<HTMLElement>(".cta-panel");
+    const tabs = Array.from(document.querySelectorAll<HTMLElement>(".cta-tab"));
+    const panels = Array.from(document.querySelectorAll<HTMLElement>(".cta-panel"));
 
-    tabs.forEach((tab) => {
-      tab.addEventListener("click", () => {
-        const target = tab.dataset.tab;
+    function activateTab(tab: HTMLElement) {
+      const target = tab.dataset.tab;
 
-        tabs.forEach((t) => {
-          t.setAttribute("aria-selected", "false");
-          t.classList.remove("bg-brand-cream", "text-brand-earth", "shadow-sm");
-          t.classList.add("text-brand-earth/50");
-        });
-        tab.setAttribute("aria-selected", "true");
-        tab.classList.remove("text-brand-earth/50");
-        tab.classList.add("bg-brand-cream", "text-brand-earth", "shadow-sm");
+      tabs.forEach((t) => {
+        t.setAttribute("aria-selected", "false");
+        t.classList.remove("bg-brand-cream", "text-brand-earth", "shadow-sm");
+        t.classList.add("text-brand-earth/50");
+      });
+      tab.setAttribute("aria-selected", "true");
+      tab.classList.remove("text-brand-earth/50");
+      tab.classList.add("bg-brand-cream", "text-brand-earth", "shadow-sm");
 
-        panels.forEach((p) => {
-          p.classList.toggle("hidden", p.dataset.panel !== target);
-        });
+      panels.forEach((p) => {
+        p.classList.toggle("hidden", p.dataset.panel !== target);
+      });
+    }
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener("click", () => activateTab(tab));
+
+      tab.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight") {
+          e.preventDefault();
+          const next = (i + 1) % tabs.length;
+          tabs[next].focus();
+          activateTab(tabs[next]);
+        }
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          const prev = (i - 1 + tabs.length) % tabs.length;
+          tabs[prev].focus();
+          activateTab(tabs[prev]);
+        }
       });
     });
   })();
