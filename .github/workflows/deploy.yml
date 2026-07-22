@@ -24,12 +24,7 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm install -g firebase-tools@latest
-      - run: |
-          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" > ${{ runner.temp }}/ga.json
-      - run: |
-          echo "Checking JSON validity..."
-          python3 -c "import json; json.load(open('${{ runner.temp }}/ga.json')); print('JSON valid, project_id:', json.load(open('${{ runner.temp }}/ga.json'))['project_id'])"
-      - run: |
-          firebase deploy --only hosting,functions --non-interactive --project mossaistudio --debug 2>&1 || true
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/ga.json
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+      - run: firebase deploy --only hosting,functions --non-interactive --project mossaistudio
