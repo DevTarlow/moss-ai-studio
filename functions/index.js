@@ -1,6 +1,5 @@
 const {setGlobalOptions} = require("firebase-functions/v2");
 const {onRequest} = require("firebase-functions/v2/https");
-const functions = require("firebase-functions");
 const express = require("express");
 const {initializeApp, getApps} = require("firebase-admin/app");
 const {getFirestore} = require("firebase-admin/firestore");
@@ -13,8 +12,8 @@ const db = getFirestore();
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 async function syncToBrevo(email, attributes) {
-  const apiKey = functions.config().brevo?.api_key;
-  const listId = functions.config().brevo?.list_id;
+  const apiKey = process.env.BREVO_API_KEY;
+  const listId = process.env.BREVO_LIST_ID;
   if (!apiKey || !listId) return;
   await fetch("https://api.brevo.com/v3/contacts", {
     method: "POST",
