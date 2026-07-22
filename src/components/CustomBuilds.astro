@@ -1,0 +1,70 @@
+---
+import { customBuilds } from "../data/customBuilds.js";
+
+const iconPaths = [
+  [
+    "M6 3v18",
+    "M18 3v18",
+    "M3 8h6",
+    "M15 8h6",
+  ],
+  [
+    "M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z",
+  ],
+  [
+    "M19 4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Z",
+    "M16 2v4",
+    "M8 2v4",
+    "M3 10h18",
+  ],
+];
+
+const accentColors = ["text-[var(--color-accent)]", "text-[var(--color-accent-2)]", "text-[var(--color-accent)]"];
+const accentBgs = ["bg-[var(--color-accent)]/10", "bg-[var(--color-accent-2)]/10", "bg-[var(--color-accent)]/10"];
+---
+
+<section id="builds" class="mx-auto max-w-6xl px-6 py-24">
+  <div class="mb-14 text-center">
+    <p class="mb-3 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)]">Smart</p>
+    <h2 class="font-display text-3xl font-bold tracking-tight text-[var(--color-text)] md:text-4xl">
+          Custom Solutions Built For You.
+    </h2>
+    <p class="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-[var(--color-text-muted)]">
+      Need something I haven't built yet? Here's what I can do.
+    </p>
+  </div>
+
+  <div class="grid gap-8 md:grid-cols-3 reveal">
+    {customBuilds.map((build, i) => (
+      <div
+        class="group flex flex-col items-center text-center rounded-xl border border-[var(--color-border)] bg-white p-8 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 reveal"
+        class:list={[`reveal-delay-${i + 1}`]}
+      >
+        <div class:list={["mb-5 flex h-12 w-12 items-center justify-center rounded-xl", accentBgs[i], accentColors[i]]}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
+            {iconPaths[i].map((d) => <path d={d} />)}
+          </svg>
+        </div>
+
+        <h3 class="mb-2 font-display text-lg font-bold text-[var(--color-text)]">
+          {build.title}
+        </h3>
+        <p class="mb-1 text-sm font-semibold text-[var(--color-accent)]">{build.summary}</p>
+        <p class="mb-6 flex-1 text-sm leading-relaxed text-[var(--color-text-muted)]">{build.detail}</p>
+
+        <div class="mt-auto space-y-3">
+          <p class="text-sm font-medium text-[var(--color-text-muted)]">{build.pricing}</p>
+          <a
+            href={build.href}
+            class="inline-flex w-full items-center justify-center gap-2 border border-[var(--color-border)] px-5 py-2.5 text-sm font-semibold text-[var(--color-text)] transition-all duration-200 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+          >
+            {build.cta}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
+              <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 0 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 0 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

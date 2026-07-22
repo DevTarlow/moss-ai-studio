@@ -1,50 +1,57 @@
 ---
-const faqs = [
-  {
-    q: "How long does a typical project take?",
-    a: "Most projects run between 1 to 4 weeks depending on complexity. A single automated workflow can be developed in 3 to 5 days, while a bespoke AI application typically takes 2 to 4 weeks. You'll receive a firm, transparent timeline right during our initial discovery call."
-  },
-  {
-    q: "Do you work with my existing stack?",
-    a: "Almost certainly. We design digital ecosystems to integrate seamlessly with your existing tools. If your CRM, database, or software platform has an API, we can connect it. We specialize in n8n, OpenAI, databases, and major SaaS platforms, adapting naturally to whatever tech stack your business runs on."
-  },
-  {
-    q: "What happens after you ship?",
-    a: "You get full, complete ownership of your infrastructure and code. We don't believe in black boxes, and we provide clear, accessible documentation so your team can effortlessly run and maintain the ecosystem. If you ever need fine-tuning down the line, we offer flexible, hourly support blocks with zero retainer lock-in."
-  },
-  {
-    q: "Do you only work with startups?",
-    a: "Startups and lean small businesses are our absolute sweet spot. However, we partner with teams of any size that appreciate direct developer communication, fast shipping, and a small-studio approach that skips the corporate games."
-  }
+import { faqs } from "../data/faqs.js";
+
+const categories = [
+  { key: "products", label: "Products & Licensing" },
+  { key: "builds", label: "Custom Builds" },
+  { key: "general", label: "General" },
 ];
 ---
 
-<section id="faq" class="mx-auto max-w-6xl px-6 py-24">
-  <div class="mx-auto max-w-2xl reveal">
-    <div class="mb-10 text-center">
-      <p class="mb-3 font-mono text-xs font-medium uppercase tracking-[0.2em] text-brand-olive">FAQ</p>
-      <h2 class="font-display text-3xl font-semibold tracking-tight text-brand-earth md:text-4xl">
-        Common <span class="italic text-brand-olive">questions.</span>
-      </h2>
-    </div>
+<section id="faq" class="bg-white py-24">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="mx-auto max-w-2xl">
+      <div class="mb-10 text-center reveal">
+        <p class="mb-3 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)]">FAQ</p>
+        <h2 class="font-display text-3xl font-bold tracking-tight text-[var(--color-text)] md:text-4xl">
+          Common Questions.
+        </h2>
+        <p class="mt-3 text-sm text-[var(--color-text-muted)]">
+          People and clients usually ask me.
+        </p>
+      </div>
 
-    <div class="space-y-3 reveal">
-      {faqs.map((faq, i) => (
-        <div class="faq-item rounded-2xl border border-brand-sand/30 bg-brand-cream px-6 py-4 transition-all duration-200">
+      <div class="faq-filters mb-8 flex flex-wrap justify-center gap-2">
+        {categories.map((cat) => (
           <button
-            class="faq-toggle flex w-full items-center justify-between gap-4 text-left"
-            aria-expanded="false"
+            class="faq-filter rounded-full border border-[var(--color-border)] px-4 py-2 text-xs font-semibold text-[var(--color-text-muted)] transition-all duration-200 hover:border-[var(--color-accent-2)] hover:text-[var(--color-accent-2)]"
+            data-category={cat.key}
           >
-            <span class="text-sm font-medium text-brand-earth">{faq.q}</span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="faq-chevron h-4 w-4 flex-shrink-0 text-brand-sand/60 transition-transform duration-300">
-              <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-            </svg>
+            {cat.label}
           </button>
-          <div class="faq-content hidden">
-            <p class="pb-2 pt-3 text-sm leading-relaxed text-brand-earth/60">{faq.a}</p>
+        ))}
+      </div>
+
+      <div class="space-y-3 reveal">
+        {faqs.map((faq) => (
+          <div class="faq-item rounded-xl border border-[var(--color-border)] bg-white px-6 py-4 transition-all duration-200 hover:border-[var(--color-accent-2)]/40" data-category={faq.category}>
+            <button
+              class="faq-toggle flex w-full items-center justify-between gap-4 text-left"
+              aria-expanded="false"
+            >
+              <span class="text-sm font-semibold text-[var(--color-text)]">{faq.q}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="faq-chevron h-4 w-4 flex-shrink-0 text-[var(--color-accent-2)] transition-transform duration-300">
+                <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div class="faq-content grid transition-all duration-300" style="grid-template-rows: 0fr;">
+              <div class="overflow-hidden">
+                <p class="pb-2 pt-3 text-sm leading-relaxed text-[var(--color-text-muted)]">{faq.a}</p>
+              </div>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   </div>
 </section>
@@ -57,8 +64,36 @@ const faqs = [
       const expanded = btn.getAttribute("aria-expanded") === "true";
 
       btn.setAttribute("aria-expanded", String(!expanded));
-      content?.classList.toggle("hidden");
-      chevron?.classList.toggle("rotate-180");
+      content.style.gridTemplateRows = !expanded ? "1fr" : "0fr";
+      if (chevron) chevron.classList.toggle("rotate-180");
+    });
+  });
+
+  document.querySelectorAll(".faq-filter").forEach((filter) => {
+    filter.addEventListener("click", () => {
+      const category = filter.dataset.category;
+      const wasActive = filter.classList.contains("!bg-[var(--color-accent-2)]");
+
+      document.querySelectorAll(".faq-filter").forEach((f) => {
+        f.classList.remove("!bg-[var(--color-accent-2)]", "!text-white", "!border-[var(--color-accent-2)]");
+      });
+
+      if (!wasActive) {
+        filter.classList.add("!bg-[var(--color-accent-2)]", "!text-white", "!border-[var(--color-accent-2)]");
+
+        document.querySelectorAll(".faq-item").forEach((item) => {
+          const itemCat = item.dataset.category;
+          if (itemCat === category) {
+            (item as HTMLElement).style.display = "";
+          } else {
+            (item as HTMLElement).style.display = "none";
+          }
+        });
+      } else {
+        document.querySelectorAll(".faq-item").forEach((item) => {
+          (item as HTMLElement).style.display = "";
+        });
+      }
     });
   });
 </script>

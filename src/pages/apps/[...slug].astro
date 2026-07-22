@@ -1,0 +1,248 @@
+---
+import { products } from "../../data/products.js";
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import BackToTop from "../../components/BackToTop.astro";
+import WaitlistForm from "../../components/WaitlistForm.astro";
+
+export function getStaticPaths() {
+  return products.map((product) => ({
+    params: { slug: product.slug },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+---
+
+<Layout
+  title={`${product.name} - Moss AI Studio`}
+  description={product.tagline}
+  canonical={`https://mossaistudio.com/apps/${product.slug}`}
+>
+  <Header />
+  <main class="mx-auto max-w-3xl px-6 pb-24 pt-24 md:pt-32">
+    <a
+      href="/#apps"
+      class="mb-10 inline-flex items-center gap-1.5 text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-accent)]"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
+        <path fill-rule="evenodd" d="M17 10a.75.75 0 0 1-.75.75H5.612l4.158 3.96a.75.75 0 1 1-1.04 1.08l-5.5-5.25a.75.75 0 0 1 0-1.08l5.5-5.25a.75.75 0 1 1 1.04 1.08L5.612 9.25H16.25A.75.75 0 0 1 17 10Z" clip-rule="evenodd" />
+      </svg>
+      Back to Products
+    </a>
+
+    <div class="reveal mb-10">
+      {product.image && (
+        <button type="button" class="product-image-btn group relative mb-8 w-full overflow-hidden rounded-xl border border-[var(--color-border)] cursor-zoom-in">
+          <img src={product.image} alt={product.name} class="w-full object-cover" loading="eager" />
+        </button>
+      )}
+      <span class="mb-4 inline-flex items-center gap-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-1 font-mono text-[10px] font-medium text-[var(--color-text-muted)]">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-3 w-3">
+          <path fill-rule="evenodd" d="M2 3.75A.75.75 0 0 1 2.75 3h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 3.75Zm0 4.167a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Zm0 4.166a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Zm0 4.167a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+        </svg>
+        {product.platform}
+      </span>
+      {product.comingSoon && (
+        <span class="mb-4 ml-2 inline-flex items-center gap-1.5 rounded-full bg-[var(--color-accent-2)]/10 px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-wide text-[var(--color-accent-2)]">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-3 w-3">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-13a.75.75 0 0 0-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 0 0 0-1.5h-3.25V5Z" clip-rule="evenodd" />
+          </svg>
+          Coming Soon
+        </span>
+      )}
+      <h1 class="font-display text-4xl font-bold leading-tight tracking-tight text-[var(--color-text)] md:text-5xl">
+        {product.name}
+      </h1>
+      <p class="mt-4 text-lg leading-relaxed text-[var(--color-text-muted)]">{product.tagline}</p>
+    </div>
+
+    <div class="reveal reveal-delay-1 mb-12 overflow-hidden rounded-xl border border-[var(--color-border)] bg-white shadow-sm">
+      <div class="p-6 md:p-8">
+        <h2 class="mb-6 font-display text-xl font-bold text-[var(--color-text)]">Pricing</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead>
+              <tr class="border-b border-[var(--color-border)]">
+                <th class="pb-3 pr-4 font-semibold text-[var(--color-text)]">Tier</th>
+                <th class="pb-3 pr-4 font-semibold text-[var(--color-text)]">Price</th>
+                <th class="pb-3 font-semibold text-[var(--color-text)]">What you get</th>
+              </tr>
+            </thead>
+            <tbody>
+              {product.pricing.map((tier) => (
+                <tr class="border-b border-[var(--color-border)] last:border-0">
+                  <td class="py-3 pr-4 font-semibold text-[var(--color-accent)]">{tier.label}</td>
+                  <td class="py-3 pr-4 font-semibold text-[var(--color-text)]">
+                    {tier.price}<span class="font-normal text-[var(--color-text-muted)]">{tier.period ? ` ${tier.period.replace("/", "").trim()}` : ""}</span>
+                  </td>
+                  <td class="py-3 text-[var(--color-text-muted)]">{tier.description}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal reveal-delay-2 mb-12">
+      <h2 class="mb-4 font-display text-xl font-bold text-[var(--color-text)]">About {product.name}</h2>
+      {Array.isArray(product.description) ? (
+          <div class="space-y-3">
+            {product.description.map((p) => (
+              <p class="leading-relaxed text-[var(--color-text-muted)]">{p}</p>
+            ))}
+          </div>
+        ) : (
+          <p class="leading-relaxed text-[var(--color-text-muted)]">{product.description}</p>
+        )}
+      {product.screenshots && product.screenshots.length > 0 && (
+        <div class="mt-6 space-y-4">
+          {product.screenshots.map((src) => (
+            <button type="button" class="product-image-btn group relative w-full overflow-hidden rounded-lg border border-[var(--color-border)] cursor-zoom-in">
+              <img src={src} alt={`${product.name} screenshot`} class="w-full object-cover" loading="lazy" />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+
+    <div class="reveal reveal-delay-3 mb-12">
+      <h2 class="mb-4 font-display text-xl font-bold text-[var(--color-text)]">Features</h2>
+      <ul class="space-y-3">
+        {product.features.map((feature) => (
+          <li class="flex items-start gap-3 text-sm leading-relaxed text-[var(--color-text-muted)]">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="mt-0.5 h-4 w-4 flex-shrink-0 text-[var(--color-accent)]">
+              <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+            </svg>
+            {feature}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    {product.productFaqs && product.productFaqs.length > 0 && (
+      <div class="reveal reveal-delay-4 mb-12">
+        <h2 class="mb-6 font-display text-xl font-bold text-[var(--color-text)]">FAQ</h2>
+        <div class="space-y-3">
+          {product.productFaqs.map((faq) => (
+            <div class="rounded-xl border border-[var(--color-border)] bg-white px-6 py-4 transition-all duration-200 hover:border-[var(--color-accent-2)]/40">
+              <button
+                class="app-faq-toggle flex w-full items-center justify-between gap-4 text-left"
+                aria-expanded="false"
+              >
+                <span class="text-sm font-semibold text-[var(--color-text)]">{faq.q}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="app-faq-chevron h-4 w-4 flex-shrink-0 text-[var(--color-accent-2)] transition-transform duration-300">
+                  <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                </svg>
+              </button>
+              <div class="app-faq-content grid transition-all duration-300" style="grid-template-rows: 0fr;">
+                <div class="overflow-hidden">
+                  <p class="pb-2 pt-3 text-sm leading-relaxed text-[var(--color-text-muted)]">{faq.a}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <div class="reveal text-center">
+      {product.comingSoon ? (
+        <div class="mx-auto max-w-md rounded-xl border border-[var(--color-border)] bg-white p-6 shadow-sm md:p-8">
+          <WaitlistForm />
+        </div>
+      ) : product.externalBuy ? (
+        <a
+          href={product.buyLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 bg-[var(--color-accent)] px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-[#0F172A] transition-all duration-200 hover:bg-[var(--color-accent-hover)] hover:scale-[1.02]"
+        >
+          Get {product.name}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
+            <path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 0 0-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 0 0 .75-.75v-4a.75.75 0 0 1 1.5 0v4A2.25 2.25 0 0 1 12.75 17h-8.5A2.25 2.25 0 0 1 2 14.75v-8.5A2.25 2.25 0 0 1 4.25 4h5a.75.75 0 0 1 0 1.5h-5Z" clip-rule="evenodd" />
+            <path fill-rule="evenodd" d="M6.194 12.753a.75.75 0 0 0 1.06.053L16.5 4.44v2.81a.75.75 0 0 0 1.5 0v-4.5a.75.75 0 0 0-.75-.75h-4.5a.75.75 0 0 0 0 1.5h2.553l-9.056 8.194a.75.75 0 0 0-.053 1.06Z" clip-rule="evenodd" />
+          </svg>
+        </a>
+      ) : (
+        <a
+          href={product.buyLink}
+          class="inline-flex items-center gap-2 bg-[var(--color-accent)] px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-[#0F172A] transition-all duration-200 hover:bg-[var(--color-accent-hover)] hover:scale-[1.02]"
+        >
+          Buy {product.name}
+        </a>
+      )}
+    </div>
+  </main>
+  <Footer />
+  <BackToTop />
+
+  <div id="lightbox" class="fixed inset-0 z-[100] hidden items-center justify-center px-4" style="background: rgba(0,0,0,0.8);">
+    <button type="button" id="lightbox-close" class="absolute right-6 top-6 rounded-full p-2 text-white/60 transition-colors hover:text-white hover:bg-white/10" aria-label="Close lightbox">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-6 w-6">
+        <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+      </svg>
+    </button>
+    <img id="lightbox-img" src="" alt="" class="max-h-[90vh] max-w-[90vw] rounded-lg object-contain shadow-2xl" />
+  </div>
+
+  <script>
+    document.querySelectorAll(".app-faq-toggle").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const content = btn.nextElementSibling;
+        const chevron = btn.querySelector(".app-faq-chevron");
+        const expanded = btn.getAttribute("aria-expanded") === "true";
+
+        btn.setAttribute("aria-expanded", String(!expanded));
+        if (content) {
+          (content as HTMLElement).style.gridTemplateRows = !expanded ? "1fr" : "0fr";
+        }
+        chevron?.classList.toggle("rotate-180");
+      });
+    });
+  </script>
+
+  <script>
+    (function () {
+      const btns = document.querySelectorAll(".product-image-btn");
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightbox-img");
+      const closeBtn = document.getElementById("lightbox-close");
+
+      if (!btns.length || !lightbox || !lightboxImg || !closeBtn) return;
+
+      function open(src) {
+        lightboxImg.src = src;
+        lightbox.classList.remove("hidden");
+        lightbox.classList.add("flex");
+        document.body.style.overflow = "hidden";
+      }
+
+      function close() {
+        lightbox.classList.add("hidden");
+        lightbox.classList.remove("flex");
+        document.body.style.overflow = "";
+      }
+
+      btns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const img = btn.querySelector("img");
+          if (img) open(img.src);
+        });
+      });
+
+      closeBtn.addEventListener("click", close);
+
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox || e.target === lightboxImg) close();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !lightbox.classList.contains("hidden")) close();
+      });
+    })();
+  </script>
+</Layout>

@@ -1,0 +1,46 @@
+---
+import WaitlistForm from "./WaitlistForm.astro";
+---
+<div id="waitlist-modal" class="fixed inset-0 z-[100] hidden items-center justify-center px-4" style="background: rgba(0,0,0,0.8);" role="dialog" aria-modal="true" aria-label="Waitlist signup">
+  <div class="relative w-full max-w-md rounded-xl border border-[var(--color-border)] bg-white p-6 shadow-sm md:p-8" style="background: white;">
+    <button type="button" class="absolute right-4 top-4 rounded-full p-1.5 text-[var(--color-text-muted)]/60 transition-colors hover:bg-[var(--color-bg)] hover:text-[var(--color-text)]" aria-label="Close" data-waitlist-close="">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
+        <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+      </svg>
+    </button>
+    <WaitlistForm />
+  </div>
+</div>
+
+<script>
+  (function () {
+    const modal = document.getElementById('waitlist-modal');
+    if (!modal) return;
+
+    const openBtns = document.querySelectorAll('[data-waitlist-open]');
+    const closeBtns = document.querySelectorAll('[data-waitlist-close]');
+
+    function open() {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    openBtns.forEach((btn) => btn.addEventListener('click', open));
+    closeBtns.forEach((btn) => btn.addEventListener('click', close));
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) close();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) close();
+    });
+  })();
+</script>

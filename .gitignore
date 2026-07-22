@@ -3,6 +3,7 @@ dist/
 
 # generated types
 .astro/
+.opencode/
 
 # dependencies
 node_modules/
@@ -16,9 +17,18 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
+mossaistudio-firebase-adminsdk-fbsvc-7df2029fac.json
+
+# Firebase
+firebase-service-account.json
+firestore-debug.log
+firestore-debug.*.log
 
 # Playwright MCP artifacts
 .playwright-mcp/
+
+# Vercel
+.vercel/
 
 # macOS-specific files
 .DS_Store

@@ -1,0 +1,211 @@
+---
+import { getCollection, getEntry, render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import BackToTop from "../../components/BackToTop.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { slug: post.id },
+  }));
+}
+
+const { slug } = Astro.params;
+const post = await getEntry("blog", slug!);
+const { Content } = await render(post!);
+---
+
+<Layout
+  title={`${post!.data.title} - Moss AI Studio`}
+  description={post!.data.summary}
+  canonical={`https://mossaistudio.com/blog/${post!.id}`}
+>
+  <Header />
+  <main class="mx-auto max-w-3xl px-6 pb-24 pt-24 md:pt-32">
+    <a
+      href="/blog/"
+      class="mb-10 inline-flex items-center gap-1.5 text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-accent)]"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
+        <path fill-rule="evenodd" d="M17 10a.75.75 0 0 1-.75.75H5.612l4.158 3.96a.75.75 0 1 1-1.04 1.08l-5.5-5.25a.75.75 0 0 1 0-1.08l5.5-5.25a.75.75 0 1 1 1.04 1.08L5.612 9.25H16.25A.75.75 0 0 1 17 10Z" clip-rule="evenodd" />
+      </svg>
+      Back to Blog
+    </a>
+
+    <article class="reveal">
+      <header class="mb-10">
+        <time
+          datetime={post!.data.pubDate.toISOString()}
+          class="mb-4 block font-mono text-[10px] font-medium uppercase tracking-[0.15em] text-[var(--color-text-muted)]"
+        >
+          {post!.data.pubDate.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
+        </time>
+
+        <h1 class="font-display text-3xl font-bold leading-tight tracking-tight text-[var(--color-text)] md:text-4xl">
+          {post!.data.title}
+        </h1>
+
+        {post!.data.tags && post!.data.tags.length > 0 && (
+          <div class="mt-4 flex flex-wrap gap-2">
+            {post!.data.tags.map((tag) => (
+              <span class="inline-block rounded-full border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-0.5 font-mono text-[10px] font-medium text-[var(--color-text-muted)]">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </header>
+
+      {post!.data.image && (
+        <div class="mb-10 overflow-hidden rounded-xl border border-[var(--color-border)]">
+          <img src={post!.data.image} alt={post!.data.title} class="w-full cursor-zoom-in object-cover" loading="eager" fetchpriority="high" />
+        </div>
+      )}
+
+      <div class="prose-custom text-sm leading-relaxed text-[var(--color-text-muted)] md:text-base">
+        <Content />
+      </div>
+    </article>
+  </main>
+  <Footer />
+  <BackToTop />
+  <div id="blog-lightbox" class="fixed inset-0 z-[100] hidden items-center justify-center px-4" style="background: rgba(0,0,0,0.4);">
+    <button type="button" id="blog-lightbox-close" class="absolute right-6 top-6 rounded-full p-2 text-white/80 transition-colors hover:text-white hover:bg-white/10" aria-label="Close lightbox">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-6 w-6">
+        <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+      </svg>
+    </button>
+    <img id="blog-lightbox-img" src="" alt="" class="max-h-[90vh] max-w-[90vw] rounded-lg object-contain shadow-2xl" />
+  </div>
+
+  <script>
+    (function () {
+      const lightbox = document.getElementById("blog-lightbox");
+      const lightboxImg = document.getElementById("blog-lightbox-img");
+      const closeBtn = document.getElementById("blog-lightbox-close");
+
+      if (!lightbox || !lightboxImg || !closeBtn) return;
+
+      function open(src) {
+        lightboxImg.src = src;
+        lightbox.classList.remove("hidden");
+        lightbox.classList.add("flex");
+        document.body.style.overflow = "hidden";
+      }
+
+      function close() {
+        lightbox.classList.add("hidden");
+        lightbox.classList.remove("flex");
+        document.body.style.overflow = "";
+      }
+
+      const images = document.querySelectorAll("main img");
+      images.forEach((img) => {
+        img.addEventListener("click", () => open(img.src));
+      });
+
+      closeBtn.addEventListener("click", close);
+
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) close();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !lightbox.classList.contains("hidden")) close();
+      });
+    })();
+  </script>
+</Layout>
+
+<style>
+  .prose-custom :global(h2) {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    letter-spacing: -0.01em;
+  }
+
+  .prose-custom :global(h3) {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .prose-custom :global(p) {
+    margin-bottom: 1.25rem;
+  }
+
+  .prose-custom :global(ul) {
+    list-style: disc;
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+  }
+
+  .prose-custom :global(ol) {
+    list-style: decimal;
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+  }
+
+  .prose-custom :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .prose-custom :global(strong) {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .prose-custom :global(em) {
+    font-style: italic;
+  }
+
+  .prose-custom :global(a) {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.2s;
+  }
+
+  .prose-custom :global(a:hover) {
+    color: var(--color-accent-hover);
+  }
+
+  .prose-custom :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.75rem;
+    margin: 1.5rem 0;
+    cursor: zoom-in;
+  }
+
+  .prose-custom :global(code) {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.875em;
+    background: var(--color-bg);
+    padding: 0.125em 0.375em;
+    border-radius: 0.25rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .prose-custom :global(blockquote) {
+    border-left: 3px solid var(--color-accent);
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  .prose-custom :global(hr) {
+    border-color: var(--color-border);
+    margin: 2rem 0;
+  }
+</style>

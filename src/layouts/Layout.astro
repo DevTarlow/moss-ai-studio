@@ -2,13 +2,15 @@
 export interface Props {
   title?: string;
   description?: string;
+  canonical?: string;
 }
 
 import "../styles/global.css";
 
-const { title, description } = Astro.props;
-const siteTitle = title ?? "Moss AI Studio — AI Automation & Engineering";
-const siteDescription = description ?? "Less friction. More room to grow. Moss AI Studio crafts custom workflows and tailored AI tools for startups and small businesses in Portland, OR.";
+const { title, description, canonical } = Astro.props;
+const siteTitle = title ?? "Moss AI Studio — Indie AI Software & Custom Automation";
+const siteDescription = description ?? "Buy ready-to-use AI apps or hire me to build custom automation tools. Every product built, tested, and supported by a solo developer in Portland, OR.";
+const pageCanonical = canonical ?? "https://mossaistudio.com";
 ---
 
 <!doctype html>
@@ -16,10 +18,9 @@ const siteDescription = description ?? "Less friction. More room to grow. Moss A
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" href="/images/moss_ball_logo.png" />
     <meta name="generator" content={Astro.generator} />
-    <link rel="canonical" href="https://mossaistudio.com" />
+    <link rel="canonical" href={pageCanonical} />
 
     <title>{siteTitle}</title>
     <meta name="description" content={siteDescription} />
@@ -27,7 +28,7 @@ const siteDescription = description ?? "Less friction. More room to grow. Moss A
     <meta property="og:title" content={siteTitle} />
     <meta property="og:description" content={siteDescription} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://mossaistudio.com" />
+    <meta property="og:url" content={pageCanonical} />
     <meta property="og:image" content="https://mossaistudio.com/images/moss-ai-studio-logo.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://mossaistudio.com/images/moss-ai-studio-logo.jpg" />
@@ -35,27 +36,41 @@ const siteDescription = description ?? "Less friction. More room to grow. Moss A
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "LocalBusiness",
+        "@type": "SoftwareApplication",
         "name": "Moss AI Studio",
-        "description": "Tailored Automation & AI Systems for startups and SMBs. Custom workflows, AI app development, and process audits.",
+        "description": "Indie AI software and custom automation tools. Buy ready-to-use apps or hire for custom builds.",
         "url": "https://mossaistudio.com",
-        "founder": {
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Windows, Mac, Chrome",
+        "author": {
           "@type": "Person",
-          "name": "Tarlow P."
+          "name": "Tarlow P.",
+          "url": "https://mossaistudio.com"
         },
-        "areaServed": "US",
-        "foundingLocation": "Portland, OR"
+        "offers": {
+          "@type": "Offer",
+          "description": "Custom software builds and automation services",
+          "url": "https://mossaistudio.com/#builds"
+        }
       }
     </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
   </head>
-  <body class="bg-brand-cream text-brand-earth font-sans antialiased">
+  <body class="bg-[var(--color-bg)] text-[var(--color-text)] font-sans antialiased">
     <slot />
     <script>
       import "../scripts/reveal.js";

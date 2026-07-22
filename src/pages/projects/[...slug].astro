@@ -1,0 +1,108 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import BackToTop from "../../components/BackToTop.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<Layout title={`${project.data.title} - Moss AI Studio Projects`} description={project.data.summary} canonical={`https://mossaistudio.com/projects/${project.id}`}>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mossaistudio.com" },
+        { "@type": "ListItem", "position": 2, "name": "Projects", "item": "https://mossaistudio.com/projects" },
+        { "@type": "ListItem", "position": 3, "name": project.data.title, "item": `https://mossaistudio.com/projects/${project.id}` }
+      ]
+    }
+  </script>
+  <Header />
+  <main>
+    <article class="mx-auto max-w-3xl px-6 py-24 md:py-32">
+      <div class="mb-10 reveal">
+        <a href="/" class="mb-6 inline-flex items-center gap-1.5 text-xs font-medium text-[var(--color-accent)]/60 transition-colors hover:text-[var(--color-accent)]">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-3 w-3">
+            <path fill-rule="evenodd" d="M17 10a.75.75 0 0 1-.75.75H5.612l4.158 3.96a.75.75 0 1 1-1.04 1.08l-5.5-5.25a.75.75 0 0 1 0-1.08l5.5-5.25a.75.75 0 1 1 1.04 1.08L5.612 9.25h10.638A.75.75 0 0 1 17 10Z" clip-rule="evenodd" />
+          </svg>
+          Back to Projects
+        </a>
+
+        <p class="mb-3 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)]">Project</p>
+        <h1 class="font-display text-3xl font-bold tracking-tight text-[var(--color-text)] md:text-4xl">
+          {project.data.title}
+        </h1>
+
+        <div class="mt-4 flex flex-wrap gap-2">
+          {project.data.techStack.map((tech) => (
+            <span class="inline-block rounded-full border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-1 font-mono text-[10px] font-medium text-[var(--color-text-muted)]">
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        {project.data.link ? (
+          <a
+            href={project.data.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-5 inline-flex items-center gap-2 bg-[var(--color-accent)] px-6 py-3 text-sm font-bold uppercase tracking-wide text-[#0F172A] transition-all duration-200 hover:bg-[var(--color-accent-hover)]"
+          >
+            Visit the Site
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
+              <path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 0 0-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 0 0 .75-.75v-4a.75.75 0 0 1 1.5 0v4A2.25 2.25 0 0 1 12.75 17h-8.5A2.25 2.25 0 0 1 2 14.75v-8.5A2.25 2.25 0 0 1 4.25 4h5a.75.75 0 0 1 0 1.5h-5Z" clip-rule="evenodd" />
+              <path fill-rule="evenodd" d="M6.194 12.753a.75.75 0 0 0 1.06.053L16.5 4.44v2.81a.75.75 0 0 0 1.5 0v-4.5a.75.75 0 0 0-.75-.75h-4.5a.75.75 0 0 0 0 1.5h2.553l-9.056 8.194a.75.75 0 0 0-.053 1.06Z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        ) : null}
+      </div>
+
+      <div class="content text-sm leading-relaxed text-[var(--color-text-muted)] reveal">
+        <Content />
+      </div>
+
+      {project.data.metrics && project.data.metrics.length > 0 ? (
+        <div class="mt-12 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-8 py-6 reveal">
+          <p class="mb-4 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)]">Key Results</p>
+          <div class="flex flex-wrap gap-8">
+            {project.data.metrics.map((m) => (
+              <div>
+                <p class="font-display text-2xl font-bold text-[var(--color-accent)]">{m.value}</p>
+                <p class="text-sm text-[var(--color-text-muted)]">{m.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      <div class="mt-16 border-t border-[var(--color-border)] pt-10 text-center reveal">
+        <p class="mb-4 font-display text-xl font-bold text-[var(--color-text)]">
+          Want something like this built for your business?
+        </p>
+        <a
+          href="/#cta"
+          class="inline-flex items-center gap-2 bg-[var(--color-accent)] px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-[#0F172A] transition-all duration-200 hover:bg-[var(--color-accent-hover)]"
+        >
+          Book a Free Consultation
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
+            <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 0 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 0 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd" />
+          </svg>
+        </a>
+      </div>
+    </article>
+  </main>
+  <Footer />
+  <BackToTop />
+</Layout>

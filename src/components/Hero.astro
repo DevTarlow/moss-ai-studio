@@ -1,33 +1,106 @@
-<section class="mx-auto max-w-6xl px-6 pb-20 pt-20 md:pt-28">
-  <div class="mx-auto max-w-3xl text-center reveal">
-    <img src="/images/moss_ball_logo.png" alt="Moss AI Studio" class="mx-auto mb-12 h-40 w-auto" />
-    <p class="mb-4 font-mono text-xs font-medium uppercase tracking-[0.2em] text-brand-olive">Tailored Automation & AI Systems</p>
+<section id="hero" class="relative overflow-hidden bg-gradient-to-br from-[#DCE8F5] via-[#E8F0FE] to-[#E0ECF8] pt-20 md:pt-24">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="flex flex-col items-center gap-12 py-16 md:flex-row md:py-28">
+      <!-- Left: Text -->
+      <div class="flex-1 text-center md:text-left reveal">
+        <p class="mb-4 inline-block border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/5 px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.25em] text-[var(--color-accent)]">
+          Moss AI Studio
+        </p>
 
-    <h1 class="font-display text-4xl font-semibold leading-tight tracking-tight text-brand-earth md:text-5xl lg:text-6xl">
-      Cultivating flow.<br class="hidden sm:block" />
-      <span class="italic text-brand-olive"> Eliminating friction.</span>
-    </h1>
+        <h1 class="font-display text-4xl font-extrabold leading-[1.1] tracking-tight text-[var(--color-text)] md:text-5xl lg:text-6xl">
+          Building Intelligent software to
+          <br class="hidden sm:block" />
+          <span class="text-[var(--color-accent)]">help you grow.</span>
+        </h1>
 
-    <p class="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-brand-earth/70">
-      Moss AI Studio crafts custom workflows and intuitive AI tools that seamlessly integrate into your daily operations. We take care of the heavy lifting so your business can grow naturally and efficiently.
-    </p>
+        <p class="mx-auto mt-6 max-w-lg text-base leading-relaxed text-[var(--color-text-muted)] md:mx-0 md:text-lg">
+          I develop AI tools and custom software designed to run your business faster, without the enterprise price tag or agency overhead.
+        </p>
 
-    <div class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-      <a
-        href="#cta"
-        class="inline-flex items-center gap-2 rounded-full border border-transparent bg-brand-earth px-7 py-3.5 text-sm font-medium text-brand-cream transition-all duration-200 hover:bg-brand-olive hover:shadow-sm"
-      >
-        Book a Call
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
-          <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 0 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 0 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd" />
-        </svg>
-      </a>
-      <a
-        href="#process"
-        class="inline-flex items-center gap-2 rounded-full border border-brand-sand/60 px-7 py-3.5 text-sm font-medium text-brand-earth transition-all duration-200 hover:border-brand-earth/40 hover:bg-brand-tan"
-      >
-        See How
-      </a>
+        <div class="mt-8 flex flex-col items-center gap-3 sm:flex-row md:justify-start">
+          <a
+            href="/#apps"
+            class="inline-flex items-center gap-2 bg-[var(--color-accent)] px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-[#0F172A] transition-all duration-200 hover:bg-[var(--color-accent-hover)] hover:scale-[1.02] hover:shadow-lg"
+          >
+            Explore Products
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
+              <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 0 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 0 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd" />
+            </svg>
+          </a>
+          <a
+            href="/#builds"
+            class="inline-flex items-center gap-2 border border-[var(--color-text)]/20 px-7 py-3.5 text-sm font-semibold text-[var(--color-text)] transition-all duration-200 hover:border-[var(--color-text)]/40 hover:bg-white/50"
+          >
+            Let's Create
+          </a>
+        </div>
+
+        <p class="mt-8 text-xs font-medium uppercase tracking-[0.2em] text-[var(--color-text-muted)]">
+          Trusted by solo founders, small teams, &amp; businesses
+        </p>
+      </div>
+
+      <!-- Right: Floating moss ball visual -->
+      <div class="flex flex-1 items-center justify-center reveal reveal-delay-1">
+        <div class="relative">
+          <div class="animate-float">
+            <div id="moss-ball-wrapper" class="cursor-pointer">
+              <img
+                src="/images/moss_ball_logo.png"
+                alt="Moss AI Studio"
+                class="drop-shadow-xl h-56 w-auto md:h-72 lg:h-80"
+                fetchpriority="high"
+              />
+            </div>
+          </div>
+          <div class="pointer-events-none absolute -inset-4 rounded-full bg-gradient-to-br from-[var(--color-accent)]/10 to-[var(--color-accent-2)]/10 blur-2xl"></div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[var(--color-bg)] to-transparent"></div>
 </section>
+
+<style>
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-10px) rotate(1deg); }
+    50% { transform: translateY(0) rotate(0deg); }
+    75% { transform: translateY(-8px) rotate(-1deg); }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes bounce {
+    0%   { transform: scale(1) translateY(0); }
+    25%  { transform: scale(1.12) translateY(-18px); }
+    50%  { transform: scale(0.92) translateY(0); }
+    70%  { transform: scale(1.04) translateY(-6px); }
+    85%  { transform: scale(0.98) translateY(0); }
+    100% { transform: scale(1) translateY(0); }
+  }
+
+  .bounce {
+    animation: bounce 0.55s cubic-bezier(0.28, 0.84, 0.42, 1);
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const wrapper = document.getElementById("moss-ball-wrapper");
+    if (!wrapper) return;
+    wrapper.addEventListener("click", () => {
+      wrapper.classList.remove("bounce");
+      void wrapper.offsetWidth;
+      wrapper.classList.add("bounce");
+    });
+    wrapper.addEventListener("animationend", (e) => {
+      if (e.animationName === "bounce") {
+        wrapper.classList.remove("bounce");
+      }
+    });
+  });
+</script>

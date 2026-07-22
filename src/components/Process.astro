@@ -1,52 +1,58 @@
 ---
 const steps = [
   {
-    step: "01",
-    title: "Map & Audit",
-    summary: "We look under the hood.",
-    detail: "Every engagement starts with a deep dive into your current tech stack and operational bottlenecks. We map out your existing data paths, identify where your team is wasting time on manual repetition, and spot the exact areas ripe for automation."
+    num: "01",
+    title: "Browse & Buy",
+    summary: "Pick an app and get started.",
+    detail: "Browse the products above, pick what you need, and grab a license. Download it, run it, you're done. One-time purchases include free updates for the life of the product."
   },
   {
-    step: "02",
-    title: "Blueprint & Design",
-    summary: "No guesswork.",
-    detail: "Before a single line of code is written, you receive a clean, transparent blueprint of your new workflow ecosystem. We mock up the integrations and lay out exactly how data will flow seamlessly across your tools, ensuring it fits perfectly into your daily routine."
+    num: "02",
+    title: "Custom Requests",
+    summary: "Tell me your idea.",
+    detail: "Need something that isn't listed? Reach out with what you're trying to solve. I'll ask clarifying questions and put together a simple proposal with scope, timeline, and cost."
   },
   {
-    step: "03",
-    title: "Build & Integrate",
-    summary: "Crafting the infrastructure.",
-    detail: "This is where we bring the blueprint to life. We develop your custom AI tools, configure the API connections, and build out the automated pipelines. Everything is constructed to be modular, lightweight, and deeply reliable."
+    num: "03",
+    title: "Build & Deliver",
+    summary: "I do the building.",
+    detail: "Once we agree on the scope, I build your software. You get progress updates along the way. When it's ready, I deliver it with setup instructions and documentation."
   },
   {
-    step: "04",
-    title: "Optimization & Handoff",
-    summary: "Sustainable growth.",
-    detail: "We don't believe in black boxes. We rigorously test the new system alongside you and your team, fine-tune the friction points, and deliver clear, accessible documentation. You get full ownership of a lean, high-performing engine your team can easily run."
+    num: "04",
+    title: "Ongoing Support",
+    summary: "I'm here after you ship.",
+    detail: "All products come with free updates for as long as they're maintained. Custom builds include a post-delivery support window. Just email me directly - no ticket system."
   }
 ];
 ---
 
-<section id="process" class="mx-auto max-w-6xl px-6 py-24">
-  <div class="mx-auto max-w-2xl text-center reveal">
-    <p class="mb-3 font-mono text-xs font-medium uppercase tracking-[0.2em] text-brand-olive">How We Work</p>
-    <h2 class="font-display text-3xl font-semibold tracking-tight text-brand-earth md:text-4xl">
-      From hello to <span class="italic text-brand-olive">shipped.</span>
-    </h2>
-  </div>
+<section id="process" class="bg-white py-24">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="mb-14 text-center">
+      <p class="mb-3 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)]">How It Works</p>
+      <h2 class="font-display text-3xl font-bold tracking-tight text-[var(--color-text)] md:text-4xl">
+        From Idea to Build — No Friction.
+      </h2>
+    </div>
 
-  <div class="mx-auto mt-14 max-w-2xl">
-    {steps.map((s, i) => (
-      <div class="relative border-l-2 border-brand-sand/30 pl-8 pb-10 last:pb-0">
-        <span class="absolute -left-3 top-0 flex h-6 w-6 items-center justify-center rounded-full border-2 border-brand-sand/30 bg-brand-cream font-mono text-[10px] font-medium text-brand-olive">
-          {s.step}
-        </span>
-        <div class="reveal" class:list={["reveal-delay-" + (i + 1)]}>
-          <h3 class="font-display text-lg font-semibold text-brand-earth">{s.title}</h3>
-          <p class="mt-1 text-sm text-brand-earth/60">{s.summary}</p>
-          <p class="mt-2 text-sm leading-relaxed text-brand-earth/50">{s.detail}</p>
+    <div class="relative grid gap-6 md:grid-cols-4">
+      {steps.map((s, i) => (
+        <div class="relative text-center reveal" class:list={[`reveal-delay-${i + 1}`]}>
+          <!-- Connecting line between cards (desktop) -->
+          {i < 3 && (
+            <div class="absolute left-[calc(50%+2rem)] top-8 hidden h-0.5 w-[calc(100%-4rem)] bg-[var(--color-border)] md:block"></div>
+          )}
+
+          <span class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--color-accent)]/10 font-display text-xl font-bold text-[var(--color-accent)]">
+            {s.num}
+          </span>
+
+          <h3 class="font-display text-lg font-bold text-[var(--color-text)]">{s.title}</h3>
+          <p class="mt-2 text-sm font-medium text-[var(--color-accent)]">{s.summary}</p>
+          <p class="mt-2 text-sm leading-relaxed text-[var(--color-text-muted)]">{s.detail}</p>
         </div>
-      </div>
-    ))}
+      ))}
+    </div>
   </div>
 </section>

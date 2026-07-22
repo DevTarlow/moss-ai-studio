@@ -1,51 +1,62 @@
-<section id="about" class="mx-auto max-w-6xl px-6 py-24">
-  <div class="mx-auto max-w-2xl text-center">
-    <p class="mb-3 font-mono text-xs font-medium uppercase tracking-[0.2em] text-brand-olive">About</p>
-    <h2 class="font-display text-3xl font-semibold tracking-tight text-brand-earth md:text-4xl">
-      A small studio<br class="hidden sm:block" />
-      <span class="italic text-brand-olive">with a sharp focus.</span>
-    </h2>
-
-    <!--
-      Profile photo placeholder.
-      Replace the src below with your actual headshot, e.g.:
-      src="/images/headshot.jpg"
-    -->
-    <div class="mt-10 flex flex-col items-center gap-4">
-      <div class="h-24 w-24 overflow-hidden rounded-full border-2 border-brand-sand/40">
-        <img
-          src="/images/tarlow-cropped-headshot-small.jpg"
-          alt="Founder portrait"
-          class="h-full w-full object-cover"
-          width="96"
-          height="96"
-          loading="lazy"
-        />
+<section id="about" class="py-24" style="background-color: var(--color-bg);">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="flex flex-col items-center gap-12 md:flex-row md:items-start">
+      <!-- Left: Photo -->
+      <div class="flex-shrink-0 reveal">
+        <div class="relative">
+          <div class="h-48 w-48 overflow-hidden rounded-2xl border-2 border-[var(--color-border)] md:h-56 md:w-56">
+            <img
+              src="/images/tarlow-cropped-headshot-small.jpg"
+              alt="Tarlow portrait"
+              class="h-full w-full object-cover"
+              width="224"
+              height="224"
+              loading="lazy"
+            />
+          </div>
+          <span class="absolute -bottom-3 left-1/2 -translate-x-1/2 rounded-full border border-[var(--color-border)] bg-white px-4 py-1 text-center text-xs font-semibold text-[var(--color-text-muted)] shadow-sm">
+            Tarlow <br /> Portland, OR
+          </span>
+        </div>
       </div>
-      <div class="text-center">
-        <p class="font-display text-lg font-semibold text-brand-earth">Tarlow P.</p>
-        <p class="text-sm text-brand-earth/50">Founder, Moss AI Studio.</p>
-        <p class="text-sm text-brand-earth/50">Portland, OR</p>
+
+      <!-- Right: Story -->
+      <div class="flex-1 reveal reveal-delay-1">
+        <p class="mb-2 font-mono text-[10px] font-semibold uppercase tracking-[0.25em] text-[var(--color-accent)]">About Me</p>
+
+        <h2 class="font-display text-3xl font-bold tracking-tight text-[var(--color-text)] md:text-4xl">
+          Solo developer. 15+ years shipping<br class="hidden sm:block" />software & solving problems.
+        </h2>
+
+        <div class="mt-6 space-y-4 text-sm leading-relaxed text-[var(--color-text-muted)] md:text-base">
+          <p>
+           I've been building and selling software since 2010 - from affiliate sites and WordPress setups to full-blown Windows automation tools under BoosterBots. Thousands of customers, every single one supported by me.
+          </p>
+          <p>
+            After BoosterBots, I stepped away. Sold the domain, closed that chapter, and spent time on inner work while not sure if or when I'd come back to building.
+          </p>
+          <p>
+            Then AI sparked my interest. For years I'd been watching the ideas to catch up with the tech. Now the tech is here, and the ideas are ready to be built. So, I started building again, and I haven't stopped since.
+          </p>
+          <p>
+            Moss AI Studio is what came out of that. I build AI-powered tools and automated software that solve real problems. Like, detecting AI listings on Etsy, crawling the web for keyword research, or bots that send notifications about earthquakes. It's my passion to build custom automations and applications for businesses or people that need to eliminate friction in their workflows.
+          </p>
+          <p>
+            When you buy a product or hire me for a custom build, you're dealing with me from start to finish. I build it, I test it, I ship it, and I answer your emails. No account managers. No outsourced support. No surprises.
+          </p>
+        </div>
+
+        <div class="mt-8 inline-flex items-center gap-3 rounded-xl border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/5 px-5 py-4 text-sm text-[var(--color-text-muted)]">
+          <span class="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-accent)]/15 text-[var(--color-accent)]">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
+              <path fill-rule="evenodd" d="M10 18a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm3.536-7.39a.75.75 0 1 0-1.072-1.05l-3.2 3.27L7.6 11.08a.75.75 0 1 0-1.12 1l1.875 2.1a1.125 1.125 0 0 0 1.68 0l3.5-3.57Z" clip-rule="evenodd" />
+            </svg>
+          </span>
+          <span>
+            <strong class="text-[var(--color-text)]">Thousands of customers since 2010. Direct support from the guy who created the software.</strong>
+          </span>
+        </div>
       </div>
-    </div>
-
-    <div class="mt-8 space-y-4 text-left text-sm leading-relaxed text-brand-earth/70 md:text-base reveal">
-      <p>Bridging over 20 years of experience across software development, automation, marketing, and design, I founded Moss AI Studio to focus entirely on the essentials: building digital ecosystems that are lean, efficient, and sustainable.</p>
-      <p>We partner with startups and small businesses to design and develop the automation infrastructure most teams only wish they had. No retainer bloat. No enterprise overhead. Just clean, optimized systems that ship.</p>
-      <p>
-        Every project starts with a conversation, not a 20-page proposal. I dive straight into your stack, map your operational bottlenecks, and hand you a clear system your team can actually maintain. No black boxes, no vendor lock-in, no fluff.
-      </p>
-    </div>
-
-    <div class="mt-10 inline-flex items-center gap-3 rounded-2xl border border-brand-sand/30 bg-brand-tan/30 px-6 py-4 text-sm text-brand-earth/60">
-      <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-olive/10 text-brand-olive">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
-          <path d="M10.362 1.093a.75.75 0 0 0-.724 0L2.523 5.018 10 9.143l7.477-4.125-7.115-3.925ZM18 6.443l-7.25 4v8.25l6.862-3.786A.75.75 0 0 0 18 14.25V6.443ZM9.25 18.693v-8.25l-7.25-4v7.807a.75.75 0 0 0 .388.657l6.862 3.786Z" />
-        </svg>
-      </span>
-      <span>
-        <strong class="text-brand-earth">Built for the indie era.</strong> We stay small so your systems can grow. That means direct developer communication, zero account managers, and zero games.
-      </span>
     </div>
   </div>
 </section>

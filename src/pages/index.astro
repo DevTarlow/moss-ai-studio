@@ -2,22 +2,30 @@
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Hero from "../components/Hero.astro";
-import Services from "../components/Services.astro";
-import About from "../components/About.astro";
+import StatsBar from "../components/StatsBar.astro";
+import SocialSidebar from "../components/SocialSidebar.astro";
+import Apps from "../components/Apps.astro";
+import CustomBuilds from "../components/CustomBuilds.astro";
 import Process from "../components/Process.astro";
+import About from "../components/About.astro";
+import BlogPreview from "../components/BlogPreview.astro";
 import FAQ from "../components/FAQ.astro";
 import CTA from "../components/CTA.astro";
 import BackToTop from "../components/BackToTop.astro";
 import Footer from "../components/Footer.astro";
 ---
 
-<Layout title="Moss AI Studio — Tailored Automation & AI Systems" description="Less friction. More room to grow. Moss AI Studio crafts custom workflows and tailored AI tools for startups and small businesses in Portland, OR.">
+<Layout title="Moss AI Studio - Building Intelligent software to help you grow." description="I develop AI tools and custom software designed to run your business faster, without the enterprise price tag or agency overhead." canonical="https://mossaistudio.com">
+  <SocialSidebar />
   <Header />
   <main>
     <Hero />
-    <About />
-    <Services />
+    <StatsBar />
+    <Apps />
+    <CustomBuilds />
     <Process />
+    <About />
+    <BlogPreview />
     <FAQ />
     <CTA />
   </main>

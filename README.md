@@ -1,31 +1,64 @@
 # Moss AI Studio — Tailored Automation & AI Systems
 
-Landing page for [mossaistudio.com](https://mossaistudio.com) — an indie AI automation studio built by Tarlow in Portland, OR. A single-page site with scroll-reveal animations, inline Cal.com booking, and a Web3Forms-powered contact form.
+Landing page for [mossaistudio.com](https://mossaistudio.com) — an indie AI automation studio built by Tarlow in Portland, OR. A multi-page static site with scroll-reveal animations, inline Cal.com booking, contact form, product detail pages, blog, and project case studies.
 
-**Built with:** [Astro](https://astro.build) 7 + [Tailwind CSS](https://tailwindcss.com) v4 + Vanilla JS
+**Built with:** [Astro](https://astro.build) 7 (static SSG) + [Tailwind CSS](https://tailwindcss.com) v4 + Vanilla JS
 
-## Sections
+## Site Structure
 
-Header → Hero → About → Services → Process → FAQ → CTA (Booking / Contact) → Footer
+Landing page sections: SocialSidebar → Header → Hero → StatsBar → Apps (Products) → Custom Builds → Process → About → FAQ → CTA (Booking / Contact) → Footer → BackToTop
+
+### Routing
+
+| Route | Content |
+|---|---|
+| `/` | Landing page (all sections) |
+| `/apps/` | All products listing |
+| `/apps/:slug` | Product detail page (from `src/data/products.js`) |
+| `/blog/` | Blog index |
+| `/blog/:slug` | Blog post (from `src/content/blog/`) |
+| `/projects/:slug` | Case study page (from `src/content/projects/`) |
+| `/404` | Custom 404 page |
 
 ## Project Structure
 
 ```
 /
-├── astro.config.mjs
+├── astro.config.mjs              # SSG config, Tailwind v4 + sitemap
+├── firebase.json                 # Firebase Hosting + Functions config
+├── .firebaserc                   # Firebase project alias
 ├── package.json
+├── .env.example                  # Environment variable reference
+├── functions/
+│   ├── index.js                  # Cloud Functions — /api/contact, /api/subscribe
+│   └── package.json
 ├── public/
 │   ├── CNAME
-│   ├── favicon.ico / .svg
-│   └── images/
+│   ├── robots.txt                # Points to sitemap-index.xml
+│   └── images/                   # Product screenshots, headshot, logos
 ├── src/
-│   ├── assets/
-│   ├── styles/global.css          # Tailwind + @theme tokens + animations
-│   ├── scripts/reveal.js          # IntersectionObserver scroll animations
-│   ├── layouts/Layout.astro       # HTML shell, fonts, SEO meta
-│   ├── components/                # Header, Hero, About, Services, Process, FAQ, CTA, Footer, BackToTop
-│   └── pages/index.astro
-└── .github/workflows/deploy.yml
+│   ├── content/                  # Astro content collections (blog + projects Markdown)
+│   │   ├── blog/                 # 3 blog posts
+│   │   └── projects/             # 1 case study
+│   ├── content.config.ts         # Collection schema + glob loader config
+│   ├── data/                     # Plain JS arrays (products, FAQs, custom builds)
+│   ├── styles/global.css         # Tailwind v4 imports + @theme tokens + animations
+│   ├── scripts/reveal.js         # IntersectionObserver scroll animations
+│   ├── layouts/Layout.astro      # HTML shell — SEO, OG meta, Google Fonts, JSON-LD
+│   ├── components/               # .astro section components + shared modals
+│   └── pages/
+│       ├── index.astro           # Landing page — assembles all sections
+│       ├── 404.astro             # Custom 404 page
+│       ├── apps/
+│       │   ├── index.astro       # All products listing
+│       │   └── [...slug].astro   # Product detail pages
+│       ├── blog/
+│       │   ├── index.astro       # Blog index
+│       │   ├── [...slug].astro   # Blog post pages
+│       │   └── page/[page].astro # Paginated blog
+│       └── projects/
+│           └── [...slug].astro   # Case study pages
+└── .github/workflows/deploy.yml  # GitHub Actions → Firebase Hosting
 ```
 
 ## Getting Started
@@ -47,29 +80,13 @@ Update the booking link in `src/components/CTA.astro`:
 calLink: "moss-ai-studio/30min",
 ```
 
-### Web3Forms
+### Firebase Functions
 
-Set your access key in a `.env` file:
-
-```
-PUBLIC_WEB3FORMS_ACCESS_KEY=your-key-here
-```
-
-## Brand Palette
-
-| Token              | Hex       | Example Usage              |
-| :----------------- | :-------- | :------------------------- |
-| `brand-cream`      | `#FDFBF7` | `bg-brand-cream`           |
-| `brand-tan`        | `#EFE9DC` | `bg-brand-tan`             |
-| `brand-sand`       | `#D7C49E` | `border-brand-sand`        |
-| `brand-earth`      | `#2C2520` | `text-brand-earth`         |
-| `brand-olive`      | `#5B6C4A` | `bg-brand-olive`           |
-| `brand-olive-light`| `#7A8D67` | `text-brand-olive-light`   |
-| `brand-sage`       | `#C4CFB6` | `bg-brand-sage`            |
+Contact forms (CTA and waitlist) post to `/api/contact` and `/api/subscribe`. These endpoints are served by Firebase Cloud Functions defined in `functions/index.js`.
 
 ## Deployment
 
-Auto-deploys to GitHub Pages via GitHub Actions on push to `master`. The `dist/` directory can also be served from any static host (Cloudflare Pages, Netlify, Vercel).
+Auto-deploys to Firebase Hosting via GitHub Actions on push to `master`. The workflow builds the static site and deploys both `dist/` (hosting) and `functions/` (Cloud Functions) in a single step. Authenticates via `FIREBASE_SERVICE_ACCOUNT` repository secret.
 
 ## License
 
@@ -77,4 +94,4 @@ MIT — see [LICENSE](LICENSE).
 
 ## Acknowledgments
 
-Built by [Tarlow P.](https://github.com/DevTarlow)
+Built by [Tarlow](https://github.com/DevTarlow)

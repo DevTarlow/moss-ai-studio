@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="mx-auto mb-3 h-8 w-8 text-[var(--color-accent-2)]">
+  <path fill-rule="evenodd" d="M10 2a6 6 0 0 0-6 6c0 1.887-.454 3.665-1.257 5.234a.75.75 0 0 0 .515 1.076 32.91 32.91 0 0 0 3.256.508 3.5 3.5 0 0 0 6.972 0 32.903 32.903 0 0 0 3.256-.508.75.75 0 0 0 .515-1.076A11.448 11.448 0 0 1 16 8a6 6 0 0 0-6-6ZM8.05 14.943a33.54 33.54 0 0 0 3.9 0 2 2 0 0 1-3.9 0Z" clip-rule="evenodd" />
+</svg>
+<h3 class="mb-2 text-center font-display text-lg font-bold text-[var(--color-text)]">Get notified when it launches</h3>
+<p class="mb-5 text-center text-sm leading-relaxed text-[var(--color-text-muted)]">Drop your email below and I'll let you know the moment this product is available - plus get early-bird pricing.</p>
+<form
+  id="waitlist-form"
+  action="/api/subscribe"
+  method="POST"
+  class="space-y-3"
+>
+  <input type="hidden" name="source" value="moss-crawl-waitlist" />
+  <input
+    type="email"
+    id="waitlist-email"
+    name="email"
+    required
+    placeholder="you@example.com"
+    class="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-muted)]/50 transition-all duration-200 focus:border-[var(--color-accent-2)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-2)]/10"
+  />
+  <button
+    type="submit"
+    class="inline-flex w-full items-center justify-center gap-2 bg-[var(--color-accent)] px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-[#0F172A] transition-all duration-200 hover:bg-[var(--color-accent-hover)] hover:scale-[1.01]"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
+      <path fill-rule="evenodd" d="M10 2a6 6 0 0 0-6 6c0 1.887-.454 3.665-1.257 5.234a.75.75 0 0 0 .515 1.076 32.91 32.91 0 0 0 3.256.508 3.5 3.5 0 0 0 6.972 0 32.903 32.903 0 0 0 3.256-.508.75.75 0 0 0 .515-1.076A11.448 11.448 0 0 1 16 8a6 6 0 0 0-6-6ZM8.05 14.943a33.54 33.54 0 0 0 3.9 0 2 2 0 0 1-3.9 0Z" clip-rule="evenodd" />
+    </svg>
+    Notify Me
+  </button>
+  <div id="waitlist-status" class="mt-4 hidden text-center text-sm"></div>
+</form>
+
+<script>
+  (function () {
+    const form = document.getElementById('waitlist-form');
+    if (!form) return;
+
+    const status = document.getElementById('waitlist-status');
+    const button = form.querySelector('button[type="submit"]');
+    const btnOriginal = button.innerHTML;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.classList.add('hidden');
+      status.textContent = '';
+      status.className = 'mt-4 hidden text-center text-sm';
+      button.disabled = true;
+      button.innerHTML = 'Submitting...';
+      button.classList.add('opacity-70', 'cursor-not-allowed');
+
+      try {
+        const data = new FormData(form);
+        const body = new URLSearchParams(data);
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body,
+        });
+        if (!res.ok) throw new Error('Server responded with ' + res.status);
+        status.textContent = "You're on the list! I'll let you know when Moss Crawl launches.";
+        status.className = 'mt-4 text-center text-sm text-[var(--color-accent)]';
+        form.reset();
+      } catch (err) {
+        status.textContent = 'Something went wrong. Please try again.';
+        status.className = 'mt-4 text-center text-sm text-red-500';
+      } finally {
+        status.classList.remove('hidden');
+        button.disabled = false;
+        button.innerHTML = btnOriginal;
+        button.classList.remove('opacity-70', 'cursor-not-allowed');
+      }
+    });
+  })();
+</script>
