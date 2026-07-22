@@ -29,6 +29,4 @@ jobs:
       - uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-      - run: firebase experiments:enable legacyRuntimeConfigCommands
-      - run: firebase functions:config:set brevo.api_key="${{ secrets.BREVO_API_KEY }}" brevo.list_id="${{ secrets.BREVO_LIST_ID }}" --project mossaistudio
       - run: firebase deploy --only hosting,functions --non-interactive
